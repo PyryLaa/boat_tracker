@@ -1,0 +1,424 @@
+/* ── CONFIG ──────────────────────────────────────────────────────────────── */
+:root {
+  --navy:      #0b1f3a;
+  --navy2:     #132d52;
+  --navy3:     #1e3f6e;
+  --ice:       #ddeeff;
+  --ice2:      #c2dbf5;
+  --water:     #3a8fc4;
+  --water2:    #2b6d96;
+  --sand:      #f5efe6;
+  --sand2:     #e8ddd0;
+  --text:      #0b1f3a;
+  --muted:     #5a7a99;
+  --danger:    #c0392b;
+  --success:   #1a7a4a;
+  --radius:    10px;
+  --radius-lg: 16px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Mono', monospace;
+  background: var(--navy);
+  color: var(--ice);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── WAVE BACKGROUND ─────────────────────────────────────────────────────── */
+.wave-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.wave-bg svg {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  opacity: 0.07;
+}
+
+/* ── LAYOUT ──────────────────────────────────────────────────────────────── */
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+  width: 100%;
+}
+
+/* ── HEADER ──────────────────────────────────────────────────────────────── */
+header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(194, 219, 245, 0.15);
+}
+
+.logo {
+  font-family: 'Fraunces', serif;
+  font-size: 1.75rem;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--ice);
+}
+.logo span {
+  color: var(--water);
+  font-style: italic;
+}
+
+.user-pill {
+  font-size: 11px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(194, 219, 245, 0.15);
+  border-radius: 999px;
+  padding: 5px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.user-pill button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 11px;
+  font-family: inherit;
+  padding: 0;
+  text-decoration: underline;
+}
+.user-pill button:hover { color: var(--ice); }
+
+/* ── AUTH SCREEN ─────────────────────────────────────────────────────────── */
+.auth-wrap {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(194, 219, 245, 0.15);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 380px;
+  backdrop-filter: blur(8px);
+  animation: fadeUp 0.4s ease both;
+}
+.auth-card h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: 1.5rem;
+  margin-bottom: 0.4rem;
+  color: var(--ice);
+}
+.auth-card p {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 1.75rem;
+}
+
+/* ── FORM FIELDS ─────────────────────────────────────────────────────────── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+.field label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.field input,
+.field select {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(194, 219, 245, 0.2);
+  border-radius: var(--radius);
+  padding: 0 12px;
+  height: 40px;
+  color: var(--ice);
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  transition: border-color 0.15s;
+}
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--water);
+}
+.field input::placeholder { color: var(--muted); }
+select option { background: var(--navy2); color: var(--ice); }
+
+/* ── BUTTONS ─────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: var(--radius);
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  border: none;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary { background: var(--water); color: #fff; }
+.btn-primary:hover { opacity: 0.88; }
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--ice2);
+  border: 1px solid rgba(194, 219, 245, 0.2);
+}
+.btn-ghost:hover { background: rgba(255, 255, 255, 0.12); }
+
+.btn-danger {
+  background: rgba(192, 57, 43, 0.15);
+  color: #f08070;
+  border: 1px solid rgba(192, 57, 43, 0.3);
+  padding: 0 12px;
+  height: 30px;
+  font-size: 11px;
+}
+.btn-danger:hover { background: rgba(192, 57, 43, 0.28); }
+
+.btn-full { width: 100%; }
+
+/* ── TABS ────────────────────────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 1.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius);
+  padding: 4px;
+}
+.tab {
+  flex: 1;
+  padding: 8px;
+  text-align: center;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  cursor: pointer;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  transition: background 0.15s, color 0.15s;
+}
+.tab.active { background: var(--navy3); color: var(--ice); }
+
+/* ── STAT CARDS ──────────────────────────────────────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 1.75rem;
+}
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(194, 219, 245, 0.12);
+  border-radius: var(--radius);
+  padding: 1rem;
+  animation: fadeUp 0.3s ease both;
+}
+.stat-card .who {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stat-card .hrs {
+  font-family: 'Fraunces', serif;
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--ice);
+  line-height: 1;
+}
+.stat-card .hrs-unit { font-size: 12px; color: var(--muted); }
+.stat-card .pct { font-size: 11px; color: var(--water); margin-top: 4px; }
+
+.stat-bar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin-top: 8px;
+}
+.stat-bar-fill {
+  height: 100%;
+  background: var(--water);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+/* ── FORM CARD ───────────────────────────────────────────────────────────── */
+.form-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(194, 219, 245, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+.err {
+  font-size: 12px;
+  color: #f08070;
+  margin-top: 8px;
+  min-height: 18px;
+}
+
+/* ── TRIP LIST ───────────────────────────────────────────────────────────── */
+.trip-list { display: flex; flex-direction: column; gap: 0; }
+
+.trip-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(194, 219, 245, 0.08);
+  animation: fadeUp 0.25s ease both;
+}
+.trip-item:last-child { border-bottom: none; }
+
+.trip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--water);
+  flex-shrink: 0;
+}
+.trip-body { flex: 1; min-width: 0; }
+.trip-who { font-size: 13px; color: var(--ice); font-weight: 500; }
+.trip-detail { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.trip-hrs {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--ice2);
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+/* ── PEOPLE ──────────────────────────────────────────────────────────────── */
+.people-list { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.person-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(194, 219, 245, 0.15);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 12px;
+  color: var(--ice2);
+}
+.person-chip button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  padding: 0;
+}
+.person-chip button:hover { color: #f08070; }
+
+.add-person-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+.add-person-row input { flex: 1; }
+
+/* ── SECTION LABEL ───────────────────────────────────────────────────────── */
+.slabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+/* ── EMPTY STATE ─────────────────────────────────────────────────────────── */
+.empty {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ── LOADER ──────────────────────────────────────────────────────────────── */
+.loader { display: flex; justify-content: center; padding: 2rem; }
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(194, 219, 245, 0.15);
+  border-top-color: var(--water);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ── TOAST ───────────────────────────────────────────────────────────────── */
+#toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--navy2);
+  border: 1px solid rgba(194, 219, 245, 0.2);
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  font-size: 12px;
+  color: var(--ice);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 999;
+  pointer-events: none;
+  white-space: nowrap;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+#toast.error { border-color: rgba(192, 57, 43, 0.4); color: #f08070; }
+
+/* ── ANIMATIONS ──────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+@media (max-width: 500px) {
+  .form-row { grid-template-columns: 1fr 1fr; }
+  .logo { font-size: 1.4rem; }
+}
