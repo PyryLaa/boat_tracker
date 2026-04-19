@@ -90,12 +90,29 @@ async function signOut() {
 function renderApp() {
   const email = currentUser.email;
   return `
-    <header>
+    <header style="position:relative">
       <div class="logo">⛵ <span>Boat</span> Hours</div>
-      <div class="user-pill">
-        ${email}
-        <button onclick="signOut()">sign out</button>
-      </div>
+        <div class="user-pill" onclick="toggleUserMenu()" style="cursor:pointer;">
+        ${email} ▾
+        </div>
+        <div id="user-menu" style="display:none; position:absolute; right:0; top:60px; background:var(--navy2); border:1px solid rgba(194,219,245,0.2); border-radius:var(--radius); padding:1rem; width:260px; z-index:100;">
+        <p class="slabel" style="margin-bottom:0.75rem;">Change password</p>
+        <div class="field" style="margin-bottom:0.5rem;">
+            <label>New password</label>
+            <input type="password" id="new-pass" placeholder="min. 6 characters" />
+        </div>
+        <div class="field" style="margin-bottom:0.5rem;">
+            <label>Confirm password</label>
+            <input type="password" id="confirm-pass" placeholder="repeat password" />
+        </div>
+        <div class="err" id="pass-err" style="margin-bottom:0.5rem;"></div>
+        <div style="display:flex; gap:8px;">
+            <button class="btn btn-primary" style="flex:1;" onclick="changePassword()">Update</button>
+            <button class="btn btn-ghost" onclick="toggleUserMenu()">Cancel</button>
+        </div>
+        <hr style="border-color:rgba(194,219,245,0.1); margin:0.75rem 0;" />
+        <button class="btn btn-ghost btn-full" onclick="signOut()">Sign out</button>
+        </div>
     </header>
     <div class="tabs">
       <button class="tab ${activeTab === 'log'     ? 'active' : ''}" onclick="switchTab('log')">Log trip</button>
@@ -243,7 +260,7 @@ async function renderHistoryTab() {
         <div class="trip-dot"></div>
         <div class="trip-body">
           <div class="trip-who">${t.people?.name ?? '—'}</div>
-            <div class="trip-detail">${formatDate(t.date)} &nbsp;·&nbsp; ${formatTime(t.start_time)} – ${formatTime(t.end_time)}</div>
+            <div class="trip-detail">${t.date} &nbsp;·&nbsp; ${t.start_time?.slice(0,5)} – ${t.end_time?.slice(0,5)}</div>
         </div>
         <div class="trip-hrs">${h}h ${m}m</div>
         <button class="btn btn-danger" onclick="deleteTrip('${t.id}')">Remove</button>
@@ -326,13 +343,30 @@ function toast(msg, isError = false) {
   toastTimer = setTimeout(() => { el.className = ''; }, 3000);
 }
 
-function formatDate(dateStr){
-    const [y, m, d] = dateStr.split('-');
-    return '${d}/${m}/${y}';
+function toggleUserMenu() {
+  const menu = document.getElementById('user-menu');
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
 }
 
-function formatTime(timeStr){
-    return timeStr?.slice(0, 5) ?? '-';
+async function changePassword() {
+  const newPass     = document.getElementById('new-pass').value;
+  const confirmPass = document.getElementById('confirm-pass').value;
+  const errEl       = document.getElementById('pass-err');
+
+  if (newPass.length < 6) {
+    errEl.textContent = 'Password must be at least 6 characters.';
+    return;
+  }
+  if (newPass !== confirmPass) {
+    errEl.textContent = 'Passwords do not match.';
+    return;
+  }
+
+  const { error } = await sb.auth.updateUser({ password: newPass });
+  if (error) { errEl.textContent = error.message; return; }
+
+  toggleUserMenu();
+  toast('Password updated!');
 }
 
 // ── START ─────────────────────────────────────────────────────────────────────
