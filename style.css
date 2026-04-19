@@ -157,6 +157,9 @@ header {
   font-family: 'DM Mono', monospace;
   font-size: 13px;
   transition: border-color 0.15s;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 .field input:focus,
 .field select:focus {
@@ -284,10 +287,11 @@ select option { background: var(--navy2); color: var(--ice); }
 }
 .form-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  grid-template-columns: 1fr 1fr 1fr 1fr auto;
   gap: 10px;
   align-items: end;
 }
+
 .err {
   font-size: 12px;
   color: #f08070;
@@ -418,7 +422,42 @@ select option { background: var(--navy2); color: var(--ice); }
 }
 
 /* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
-@media (max-width: 500px) {
-  .form-row { grid-template-columns: 1fr 1fr; }
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .form-row .field:first-child,
+  .form-row .field:nth-child(2) {
+    grid-column: 1 / -1;
+  }
+  .form-row .field:last-child {
+    grid-column: 1 / -1;
+  }
+  .form-row .field:last-child .btn {
+    width: 100%;
+  }
   .logo { font-size: 1.4rem; }
+
+  .form-card {
+      padding: 1rem;
+    }
+  .app {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  #f-date {
+    font-size: 11px;
+  }
+  header {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .user-pill {
+    font-size: 10px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
