@@ -186,11 +186,11 @@ async function renderLogTab() {
         </div>
         <div class="field">
           <label>Start time</label>
-          <input type="time" id="f-start" />
+          <input type="text" id="f-start" placeholder="09:00" maxlength="5" />
         </div>
         <div class="field">
           <label>End time</label>
-          <input type="time" id="f-end" />
+          <input type="text" id="f-end" placeholder="14:30" maxlength="5" />
         </div>
         <div class="field" style="min-width:unset;flex:0 0 auto;">
           <label style="opacity:0">_</label>
@@ -204,14 +204,19 @@ async function renderLogTab() {
 async function logTrip() {
   const person_id = document.getElementById('f-person').value;
   const date      = document.getElementById('f-date').value;
-  const start     = document.getElementById('f-start').value;
-  const end       = document.getElementById('f-end').value;
+  const start     = document.getElementById('f-start').value.trim();
+  const end       = document.getElementById('f-end').value.trim();
   const errEl     = document.getElementById('trip-err');
 
+  const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
   if (!person_id || !date || !start || !end) {
     errEl.textContent = 'Fill in all fields.';
     return;
   }
+  if (!timeRegex.test(start) || !timeRegex.test(end)){
+        errEl.textContent = 'Enter time as HH:MM (e.g. 9:00).';
+        return;
+    }
 
   const [sh, sm] = start.split(':').map(Number);
   const [eh, em] = end.split(':').map(Number);
