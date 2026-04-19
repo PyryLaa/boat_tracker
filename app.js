@@ -169,7 +169,17 @@ async function renderLogTab() {
   const peopleOpts = (people || []).map(p => `<option value="${p.id}">${p.name}</option>`).join('');
   const today = new Date().toISOString().split('T')[0];
 
-  el.innerHTML = `
+  const { h: totalH, m: totalM } = splitHM(totalAll);
+
+  el.innerHTML =
+    <p class="slabel">Total boat usage</p>
+    <div class="stat-card" style="margin-bottom:1.75rem; display:flex; align-items:baseline; gap:16px;">
+      <div>
+        <div class="who">All users combined</div>
+        <div class="hrs">${totalH}<span class="hrs-unit">h ${totalM}m</span></div>
+      </div>
+    </div>
+
     <p class="slabel">Hours per person</p>
     <div class="stats-grid">${statsHtml}</div>
 
