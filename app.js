@@ -55,7 +55,6 @@ function renderAuth() {
         <div class="err" id="auth-err"></div>
         <div style="display:flex;gap:8px;margin-top:0.5rem;">
           <button class="btn btn-primary btn-full" onclick="signIn()">Sign in</button>
-          <button class="btn btn-ghost btn-full" onclick="signUp()">Sign up</button>
         </div>
         <p style="font-size:10px;color:var(--muted);margin-top:1rem;text-align:center;">
           Contact the boat owner if you need access.
@@ -244,7 +243,7 @@ async function renderHistoryTab() {
         <div class="trip-dot"></div>
         <div class="trip-body">
           <div class="trip-who">${t.people?.name ?? '—'}</div>
-          <div class="trip-detail">${t.date} &nbsp;·&nbsp; ${t.start_time?.slice(0, 5)} – ${t.end_time?.slice(0, 5)}</div>
+            <div class="trip-detail">${formatDate(t.date)} &nbsp;·&nbsp; ${formatTime(t.start_time)} – ${formatTime(t.end_time)}</div>
         </div>
         <div class="trip-hrs">${h}h ${m}m</div>
         <button class="btn btn-danger" onclick="deleteTrip('${t.id}')">Remove</button>
@@ -325,6 +324,15 @@ function toast(msg, isError = false) {
   el.className = 'show' + (isError ? ' error' : '');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { el.className = ''; }, 3000);
+}
+
+function formatDate(dateStr){
+    const [y, m, d] = dateStr.split('-');
+    return '${d}/${m}/${y}';
+}
+
+function formatTime(timeStr){
+    return timeStr?.slice(0, 5) ?? '-';
 }
 
 // ── START ─────────────────────────────────────────────────────────────────────
