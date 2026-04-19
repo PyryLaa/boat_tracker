@@ -171,7 +171,7 @@ async function renderLogTab() {
 
   const { h: totalH, m: totalM } = splitHM(totalAll);
 
-  el.innerHTML =
+  el.innerHTML =`
     <p class="slabel">Total boat usage</p>
     <div class="stat-card" style="margin-bottom:1.75rem; display:flex; align-items:baseline; gap:16px;">
       <div>
