@@ -170,6 +170,7 @@ async function renderLogTab() {
   const today = new Date().toISOString().split('T')[0];
 
   const { h: totalH, m: totalM } = splitHM(totalAll);
+  console.log('totalAll:', totalAll, 'totalH:', totalH, 'totalM:', totalM);
 
   el.innerHTML =`
     <p class="slabel">Total boat usage</p>
