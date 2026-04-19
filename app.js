@@ -38,12 +38,12 @@ function render() {
 function renderAuth() {
   return `
     <div style="text-align:center;margin-bottom:2rem;margin-top:2rem;">
-      <div class="logo" style="justify-content:center;display:block;">⛵ <span>Boat</span> Hours</div>
+      <div class="logo" style="justify-content:center;display:block;">⛵ <span>Buster</span> Hours</div>
     </div>
     <div class="auth-wrap">
       <div class="auth-card">
         <h2>Sign in</h2>
-        <p>Only invited members can access the boat tracker.</p>
+        <p>Only invited members can access the buster tracker.</p>
         <div class="field">
           <label>Email</label>
           <input type="email" id="auth-email" placeholder="you@example.com" />
@@ -57,7 +57,7 @@ function renderAuth() {
           <button class="btn btn-primary btn-full" onclick="signIn()">Sign in</button>
         </div>
         <p style="font-size:10px;color:var(--muted);margin-top:1rem;text-align:center;">
-          Contact the boat owner if you need access.
+          Contact the admin if you need access.
         </p>
       </div>
     </div>`;
@@ -91,7 +91,7 @@ function renderApp() {
   const email = currentUser.email;
   return `
     <header style="position:relative">
-      <div class="logo">⛵ <span>Boat</span> Hours</div>
+      <div class="logo">⛵ <span>Buster</span> Hours</div>
         <div class="user-pill" onclick="toggleUserMenu()" style="cursor:pointer;">
         ${email} ▾
         </div>
@@ -173,10 +173,10 @@ async function renderLogTab() {
   console.log('totalAll:', totalAll, 'totalH:', totalH, 'totalM:', totalM);
 
   el.innerHTML =`
-    <p class="slabel">Total boat usage</p>
+    <p class="slabel">Total Buster usage</p>
     <div class="stat-card" style="margin-bottom:1.75rem; display:flex; align-items:baseline; gap:16px;">
       <div>
-        <div class="who">All users combined</div>
+        <div class="who">Total hours</div>
         <div class="hrs">${totalH}<span class="hrs-unit">h ${totalM}m</span></div>
       </div>
     </div>
